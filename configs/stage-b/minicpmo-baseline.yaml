@@ -1,0 +1,28 @@
+schema_version: "1.0"
+model:
+  id: openbmb/MiniCPM-o-4_5
+  revision_policy: exact_commit_required
+  dtype: bfloat16
+  local_files_only_after_cache: true
+  trust_remote_code: true
+runtime:
+  target_accelerator: ascend_a3
+  target_device_count: 1
+  python: "3.11"
+  route: torch_npu_transformers_probe
+  reference_dependencies:
+    torch: ">=2.3,<=2.10"
+    torch_npu: "same_major_minor_as_torch"
+    transformers: "4.51.3"
+    minicpmo_utils: "1.0.6"
+data:
+  source: stage_a_public_safe_bundle
+  private_data_allowed: false
+  local_qwen_allowed: false
+execution:
+  model_download: cloud_direct_only
+  require_idle_environment: true
+  require_environment_probe: true
+  require_pinned_revision: true
+  require_preflight_manifest: true
+  allow_lora_before_base: false

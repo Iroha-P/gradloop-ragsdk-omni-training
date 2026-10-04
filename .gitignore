@@ -1,0 +1,64 @@
+# Private or generated data
+data/
+!tests/data/
+tests/data/**
+!tests/data/test_*.py
+models/
+checkpoints/
+outputs/
+dist/
+
+# Documents, databases, model artifacts, and checkpoints
+*.pdf
+*.doc
+*.docx
+*.docm
+*.dot
+*.dotx
+*.dotm
+*.xls
+*.xlsx
+*.xlsm
+*.xlsb
+*.ppt
+*.pptx
+*.pptm
+*.db
+*.sqlite*
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.gguf
+*.bin
+*.pkl
+*.pickle
+*.parquet
+*.arrow
+*.feather
+*.npy
+*.npz
+
+# Local credentials; the empty placeholder is intentionally tracked
+.env
+.env.*
+!.env.example
+
+# Python and test caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+.venv/
+venv/
+
+# IDE and operating-system files
+.idea/
+.vscode/
+.worktrees/
+.superpowers/
+.DS_Store
+Thumbs.db

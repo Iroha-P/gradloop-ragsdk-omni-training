@@ -1,0 +1,42 @@
+{
+  "policy_version": 1,
+  "default_decision": "deny",
+  "allowed_licenses": {
+    "CC0-1.0": {
+      "canonical_license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "permitted_uses": [
+        "research",
+        "model_training",
+        "redistribution",
+        "adaptation"
+      ]
+    },
+    "PDM-1.0": {
+      "canonical_license_url": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "permitted_uses": [
+        "research",
+        "model_training",
+        "redistribution",
+        "adaptation"
+      ]
+    },
+    "CC-BY-4.0": {
+      "canonical_license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "permitted_uses": [
+        "research",
+        "model_training",
+        "redistribution",
+        "adaptation"
+      ]
+    },
+    "CC-BY-SA-4.0": {
+      "canonical_license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "permitted_uses": [
+        "research",
+        "retrieval",
+        "evaluation",
+        "adaptation"
+      ]
+    }
+  }
+}
