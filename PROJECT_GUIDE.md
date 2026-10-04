@@ -9,7 +9,6 @@
 | [Training](https://github.com/Iroha-P/gradloop-ragsdk-omni-training) | 数据、训练、模型评测、adapter 重载与推理服务 |
 | [应用工程](https://github.com/Iroha-P/gradloop-ragsdk-omni) | RAG/Agent、学习闭环、API、UI 与公开演示 |
 
-私人历史 Coach 仅在本地归档，不向本工程提供私人代码、数据或学习记录。
 
 ## 目录和阶段
 

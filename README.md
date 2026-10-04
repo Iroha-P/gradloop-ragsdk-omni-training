@@ -1,5 +1,21 @@
 # GradLoop RAGSDK Omni Training
 
+> GradLoop 的数据、模型实验、评测与推理服务工程
+
+**🏆 所属 GradLoop 项目：星火杯 · 全球总决赛 20 强**
+
+[![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Ascend](https://img.shields.io/badge/NPU-Huawei%20Ascend-D71920)](docs/stage-b-npu-runbook.md)
+[![MiniCPM-o](https://img.shields.io/badge/Model-MiniCPM--o%204.5-1C3C3C)](docs/stage-b-npu-results-2026-07-29.md)
+[![LoRA](https://img.shields.io/badge/Experiment-Base%20%2F%20LoRA-6F42C1)](docs/stage-b-npu-runbook.md)
+[![Evaluation](https://img.shields.io/badge/Evaluation-Frozen%20Protocol-18A058)](docs/stage-a-runbook.md)
+
+**[应用与在线体验](https://github.com/Iroha-P/gradloop-ragsdk-omni)** · **[功能亮点](#功能亮点)** · **[运行手册](docs/stage-a-runbook.md)** · **[NPU 实测记录](docs/stage-b-npu-results-2026-07-29.md)** · **[安全政策](SECURITY.md)**
+
+这是 GradLoop 的模型工程底座：把**数据来源、可复验实验、冻结评测和服务接口**连接起来，为课程学习、技术面试和科研答辩提供有证据的模型能力。它不是第二套应用，也不要求用户为了体验网页而先训练模型。
+
+GradLoop 项目参加星火杯并取得**全球总决赛 20 强**成绩。本仓库承担其中的数据、模型实验与服务部分；比赛成绩属于项目整体，不是本仓库单独获奖，也不替代模型效果评测。
+
 GradLoop RAGSDK Omni is an evidence-constrained multimodal learning and
 interview-training agent. This repository is its independent, public-safe
 training foundation: it contains source, configuration, tests, and
@@ -7,9 +23,58 @@ documentation only, never a real dataset or model artifact.
 
 ## 项目导航
 
-本仓库负责 GradLoop 的数据、训练、模型评测和模型服务；[应用仓库](https://github.com/Iroha-P/gradloop-ragsdk-omni)负责学习闭环、API 和 UI。项目分工、维护与归档方式见 [项目指南](./PROJECT_GUIDE.md)，协作规则见 [AGENTS](./AGENTS.md)。
+本仓库负责数据、模型实验、评测与推理服务；[应用仓库](https://github.com/Iroha-P/gradloop-ragsdk-omni)负责产品 UI、API 与学习闭环。维护说明见 [项目指南](PROJECT_GUIDE.md)，协作规则见 [AGENTS](AGENTS.md)。
 
-公开版本只包含源码、测试、文档与配置，不包含真实数据、模型权重、adapter、训练输出或本地历史资料。
+公开仓库包含源码、测试、配置和文档，不发布真实数据、模型权重或训练产物。
+
+## 功能亮点
+
+- **可追溯数据管线**：合成文本与文档/图像/音频 sidecar，记录来源许可、recipe 与 provenance，避免来源不明的数据进入实验。
+- **泄漏与发布门禁**：来源关联划分、隐私及近似复制检查，真实数据和模型产物与公开源码分离。
+- **冻结评测协议**：预声明指标与评测集，保留版本、哈希和聚合结果，不在冻结 test 上继续调参。
+- **Ascend Base / LoRA 实验**：环境预检、四路 Base smoke、单步 SWIFT LoRA 可行性、adapter 重载与对照决策。
+- **窄推理服务边界**：独立 Base 服务向应用提供公开/合成文本、图像和 WAV 音频推理，不把训练流程混入业务 API。
+- **如实保留失败与限制**：区分“能运行”和“质量改善”；现有 Base/LoRA 对照选择 `retain_base`，不包装成微调效果提升。
+
+## 与应用仓库怎样协作
+
+```mermaid
+flowchart LR
+    S[公开或合成来源] --> D[数据管线与 provenance]
+    D --> P[来源关联划分与冻结协议]
+    P --> B[Ascend Base / LoRA 实验]
+    B --> E[聚合评测与发布门禁]
+    E --> M[独立 Base 推理服务]
+    M --> A[GradLoop 应用 API / UI]
+```
+
+| 工程 | 负责什么 | 不负责什么 |
+| --- | --- | --- |
+| [gradloop-ragsdk-omni](https://github.com/Iroha-P/gradloop-ragsdk-omni) | RAG、Agent、学习闭环、网页、PDF/Word 文档模式 | 不在公开网页训练或持久化上传文件 |
+| 本仓库 | 数据、实验、模型评测、Base 推理服务 | 不重复实现产品 UI，不公开真实数据与权重 |
+
+## 已有证据与限制
+
+| 验证项 | 历史结果 | 含义 |
+| --- | --- | --- |
+| Ascend 910C / MiniCPM-o 4.5 Base smoke | 10/10 合成案例通过 | 有限条件下文本、图像、音频、图音路径可运行 |
+| 单步 SWIFT LoRA 与重载 smoke | adapter 保存与重载，10/10 案例通过 | 证明可行性，不证明质量提升 |
+| 5 案例冻结合成对照 | Base / LoRA composite 均为 `0.1333` | 决策为 `retain_base`，保留基线 |
+| 模型服务 | 公开安全接口与自动测试 | 当前服务版本尚未完成新一轮云端 E2E，不能宣称已部署 |
+
+上述历史证据以 [2026-07-29 报告](docs/stage-b-npu-results-2026-07-29.md)为准；不是本次文档修改重跑的实验。
+
+## 目录导航
+
+```text
+src/gradloop_data/    来源、合成数据、provenance、划分与发布检查
+src/gradloop_eval/    冻结案例 schema 与指标
+src/gradloop_npu/     Ascend 预检、Base/LoRA、重载与服务边界
+scripts/             数据构建、实验运行器与提交安全门禁
+configs/             可版本化的空配置和公开示例
+docs/                Stage A/B 协议、运行手册与实测聚合报告
+tests/               数据、评测、NPU 流程和服务契约回归
+```
 
 ## Stage A: public data and evaluation foundation
 
@@ -99,6 +164,6 @@ Run the policy tests with:
 python -m pytest tests/security/test_repository_policy.py -q
 ```
 
-## Source licensing
+## 源码许可
 
-No source-code license has been declared yet. Public visibility is not a grant of redistribution rights. Model and dataset licenses must be checked independently before use.
+本仓库尚未声明源码许可证；公开可见不等于授予再分发权利。第三方模型、数据和工具仍须遵守各自的许可证。没有把应用仓库的 Apache-2.0 自动套用到本仓库。
